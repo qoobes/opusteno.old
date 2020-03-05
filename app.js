@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var expressSession = require('express-session');
 
 var app = express();
 
@@ -15,6 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSession( {
+  secret: "HSKAJHD8Sh8sahd87ahs8HASashd8HAHSd8ahsd87hasHSShsa8dhasASHD123vgfh2gvfh21gHG"
+}));
 
 app.get('/', function(req, res, next) {
   res.render("index.ejs");
@@ -34,8 +38,9 @@ app.get('/confirmation', function(req, res, next) {
 
 app.post('/confirmation', function(req, res, next) {
   let email = req.body.email;
+  req.session.email = email;
   res.render("confirmation.ejs", {email: email});
-
+  res.end();
 });
 
 // catch 404 and forward to error handler
