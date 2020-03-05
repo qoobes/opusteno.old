@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="qoobes">
+  <meta name="description" content="A website to improve communication between students and schools">
+  <meta property="og:title" content="Opusteno - talking solves problems">
+  <meta name="theme-color" content="#6dc75a">
+  <meta name="twitter:description" content="Leading student-school communication forward">
+  <meta name="twitter:card" content="summary_medium_image">
+  <meta name="twitter:image" content="/img/handshake.png">
+  <meta name="twitter:author" content="qoobes#0904">
+
+  <title>opusteno.org</title>
+  <link rel="icon" href="img/handshake.png">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+    type="text/css">
+  <!-- <link href="css/freelancer.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/addition.css">
+</head>
+
+<body id="page-top">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">opusteno.ba</a>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-secondary text-white rounded"
+        type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/">Pocetna</a>
+          </li>
+          <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="about">O Projektu</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- About Section -->
+  <section class="page-section bg-white text-dark mb-0" id="form" style="min-height: 100%;">
+    <div class="container">
+      <h2 class="page-section-heading text-left text-uppercase text-dark">Ispunite formular</h2>
+      </div>
+
+      <div class="container">
+        <input type="text" class="inputter" placeholder="Vrsta upita (Molba, problem, zalba)" id="vrsta">
+        <select name="vaznost" id="vaznost">
+            <option value="none">nije hitno</option>
+            <option value="normalno">normalno</option>
+            <option value="veoma">veoma hitno</option>
+        </select>
+        
+        <input type="text" class="inputter" placeholder="Naslov" id="naslov">
+        <textarea name="body" id="" cols="30" rows="7" placeholder="Ovdje upisite vasu poruku"></textarea>
+        <input type="text" class="inputter" placeholder="Da li vise ljudi salju poruku? (Nabroj)" id="ljudi">
+        <select name="" id="">
+            <option value="normalno">Anonimno posalji poruku</option>
+            <option value="veoma">Podjeli moje informacije</option>
+        </select>
+        <button class="inputter" onclick="send()" id="sendButton"> Posalji!</button>
+        <button class="inputter" onclick="redirect()" id="returnButton"> Pocetna!</button>
+        </div>
+      </div>  
+ 
+    
+      
+    </div>
+  </section>
+
+
+  <!-- Copyright Section -->
+  <footer class="copyright py-4 text-center text-white">
+    <div class="container">
+      <small>Copyright &copy; Second gimnasium of Sarajevo</small>
+    </div>
+  </footer>
+  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+  <div class="scroll-to-top d-lg-none position-fixed ">
+    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+    integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous">
+  </script>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Custom scripts for this template -->
+  <script src="js/base.js"></script>
+  <script src="js/addition.js"></script>
+
+</body>
+
+</html>
