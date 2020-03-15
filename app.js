@@ -74,12 +74,12 @@ app.get('/confirmation', function(req, res, next) {
 app.post('/confirmation', function(req, res, next) {
   let email = req.body.email;
   req.session.email = email;
-
-  let elementsWithEmail = elements;
-  elementsWithEmail.email = email; // Just appends the email attribute to the elements
-
-  res.render("confirmation.ejs", elements);
-  res.end();
+  let mailHost = email.substring(email.length - 18);
+  if (mailHost.toLowerCase() === "@2gimnazija.edu.ba") {
+    elements.email = email; // Just appends the email attribute to the elements
+    res.render("form.ejs", elements);
+    res.end();
+  } else { next({message: "Pogresan email", status: "400"}); }
 });
 
 // catch 404 and forward to error handler
