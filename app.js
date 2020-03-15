@@ -48,8 +48,8 @@ function processNavbars() {
 }
 var navbar = processNavbars();
 var elements = {
-  "title": title,
-  "navbar": navbar
+  title: title,
+  navbar: navbar
 };
 
 app.get('/', function(req, res, next) {
@@ -68,7 +68,7 @@ app.get('/confirmation', function(req, res, next) {
   let elementsWithEmail = elements;
   elementsWithEmail.email = "none"; // Just appends the email attribute to the elements
 
-  res.render("confirmation.ejs", elementsWithEmail);
+  res.render("confirmation.ejs", elements);
 });
 
 app.post('/confirmation', function(req, res, next) {
@@ -78,7 +78,7 @@ app.post('/confirmation', function(req, res, next) {
   let elementsWithEmail = elements;
   elementsWithEmail.email = email; // Just appends the email attribute to the elements
 
-  res.render("confirmation.ejs", elementsWithEmail);
+  res.render("confirmation.ejs", elements);
   res.end();
 });
 
@@ -95,8 +95,7 @@ app.use(function(err, req, res, next) {
   // render the error page
 
   res.status(err.status || 500);
-  console.log(err.status);
-  res.render('error', {title: title});
+  res.render('error', elements);
 });
 
 module.exports = app;
