@@ -20,26 +20,28 @@ app.use(expressSession( {
   secret: "HSKAJHD8Sh8sahd87ahs8HASashd8HAHSd8ahsd87hasHSShsa8dhasASHD123vgfh2gvfh21gHG"
 }));
 
+const title = 'opusteno.org';
+
 app.get('/', function(req, res, next) {
-  res.render("index.ejs");
+  res.render("index.ejs", {title: title});
 });
 
 app.get('/form', function(req, res, next) {
-  res.render("form.ejs");
+  res.render("form.ejs", {title: title});
 });
 
 app.get('/about', function(req, res, next) {
-  res.render("about.ejs");
+  res.render("about.ejs", {title: title});
 });
 
 app.get('/confirmation', function(req, res, next) {
-  res.render("confirmation.ejs", {email: "none"});
+  res.render("confirmation.ejs", {email: "none", title: title});
 });
 
 app.post('/confirmation', function(req, res, next) {
   let email = req.body.email;
   req.session.email = email;
-  res.render("confirmation.ejs", {email: email});
+  res.render("confirmation.ejs", {email: email, title: title});
   res.end();
 });
 
@@ -56,7 +58,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  console.log(err.status);
+  res.render('error', {title: title});
 });
 
 module.exports = app;
