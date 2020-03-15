@@ -56,22 +56,7 @@ app.get('/', function(req, res, next) {
   res.render("index.ejs", elements);
 });
 
-app.get('/form', function(req, res, next) {
-  res.render("form.ejs", elements);
-});
-
-app.get('/about', function(req, res, next) {
-  res.render("about.ejs", elements);
-});
-
-app.get('/confirmation', function(req, res, next) {
-  let elementsWithEmail = elements;
-  elementsWithEmail.email = "none"; // Just appends the email attribute to the elements
-
-  res.render("confirmation.ejs", elements);
-});
-
-app.post('/confirmation', function(req, res, next) {
+app.post('/form', function(req, res, next) {
   let email = req.body.email;
   req.session.email = email;
   let mailHost = email.substring(email.length - 18);
@@ -79,7 +64,12 @@ app.post('/confirmation', function(req, res, next) {
     elements.email = email; // Just appends the email attribute to the elements
     res.render("form.ejs", elements);
     res.end();
-  } else { next({message: "Pogresan email", status: "400"}); }
+  } else { next({message: "Pogresan email", status: "400"}); }});
+  app.get('/form', function (req, res, next) {
+    next({message: "Potreban je email", status: "400"});
+  });
+app.get('/about', function(req, res, next) {
+  res.render("about.ejs", elements);
 });
 
 // catch 404 and forward to error handler
