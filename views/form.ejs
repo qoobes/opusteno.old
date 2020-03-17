@@ -17,24 +17,24 @@
       </div>
 
       <div class="container">
-<!--        <input type="text" class="inputter" placeholder="Vrsta upita (Molba, problem, zalba)" id="vrsta">-->
-          <select name="vrsta" id="vrsta">
+          <select name="type" id="type">
               <option value="0">Prijava</option>
               <option value="1">Molba</option>
           </select>
-        <select name="vaznost" id="vaznost">
+        <select name="urgency" id="urgency">
             <option value="0">nije hitno</option>
             <option value="1">normalno</option>
             <option value="2">veoma hitno</option>
         </select>
         
-        <input type="text" class="inputter" placeholder="Naslov" id="naslov">
+        <input type="text" class="inputter" placeholder="Kako se osjecate?" name="title" id="title">
         <textarea name="body" id="" cols="30" rows="7" placeholder="Ovdje upisite vasu poruku"></textarea>
-        <input type="text" class="inputter" placeholder="Da li vise ljudi salju poruku? (Nabroj)" id="ljudi">
-        <select name="" id="">
-            <option value="normalno">Anonimno posalji poruku</option>
-            <option value="veoma">Podjeli moje informacije</option>
+<!--        <input type="text" class="inputter" placeholder="Da li vise ljudi salju poruku? (Nabroj)" id="ljudi">-->
+        <select name="anonimno" id="anonimno">
+            <option value="0">Anonimno posalji poruku</option>
+            <option value="1">Podjeli moje informacije</option>
         </select>
+          <br>
         <button class="inputter" onclick="send()" id="sendButton"> Posalji!</button>
         <button class="inputter" onclick="redirect()" id="returnButton"> Pocetna!</button>
         </div>

@@ -60,7 +60,7 @@ const navbar = `<nav class="navbar navbar-expand-lg bg-secondary text-uppercase 
     <link rel="icon" href="img/handshake.png">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/addition.css">
+    <link rel="stylesheet" href="css/addition.min.css">
     </head>`;
 
 var elements = {
