@@ -22,7 +22,7 @@ app.use(expressSession( {
 }));
 
 const title = 'opusteno.org';
-const navbarTemplate = `<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+const navbar = `<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">${title}</a>
       <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-secondary text-white rounded"
@@ -44,7 +44,7 @@ const navbarTemplate = `<nav class="navbar navbar-expand-lg bg-secondary text-up
     </div>
   </nav>`;
 
-  var headTemplate = `<head>
+  const head = `<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="qoobes">
@@ -58,17 +58,11 @@ const navbarTemplate = `<nav class="navbar navbar-expand-lg bg-secondary text-up
   
     <title> ${title} </title>
     <link rel="icon" href="img/handshake.png">
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
-          type="text/css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/addition.css">
     </head>`;
 
-
-var navbar = processElements(navbarTemplate);
-var head = processElements(headTemplate);
 var elements = {
   title: title,
   navbar: navbar,
