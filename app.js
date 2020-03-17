@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressSession = require('express-session');
-
+const cookieSecret = `HSKAJHD8Sh8sahd87ahs8HASashd8HAHSd8ahsd87hasHSShsa8dhasASHD123vgfh2gvfh21gHG`;
 var app = express();
 
 // view engine setup
@@ -18,18 +18,45 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession( {
-  secret: "HSKAJHD8Sh8sahd87ahs8HASashd8HAHSd8ahsd87hasHSShsa8dhasASHD123vgfh2gvfh21gHG"
+  secret: cookieSecret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 3600000
+  }
 }));
 
 const title = 'opusteno.org';
+
+const head = `<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="qoobes">
+    <meta name="description" content="A website to improve communication between students and schools">
+    <meta property="og:title" content="Opusteno - talking solves problems">
+    <meta name="theme-color" content="#6dc75a">
+    <meta name="twitter:description" content="Leading student-school communication forward">
+    <meta name="twitter:card" content="summary_medium_image">
+    <meta name="twitter:image" content="/img/handshake-white.png">
+    <meta name="twitter:author" content="qoobes#0904">
+  
+    <title> ${title} </title>
+    <link rel="icon" href="img/handshake.png">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/addition.min.css">
+    </head>`;
+
+
 const navbar = `<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">${title}</a>
       <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-secondary text-white rounded"
         type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
         aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars"></i>
+         <img src="img/bar-light.png" alt="" width="20px">
+
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
@@ -44,24 +71,6 @@ const navbar = `<nav class="navbar navbar-expand-lg bg-secondary text-uppercase 
     </div>
   </nav>`;
 
-  const head = `<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="qoobes">
-    <meta name="description" content="A website to improve communication between students and schools">
-    <meta property="og:title" content="Opusteno - talking solves problems">
-    <meta name="theme-color" content="#6dc75a">
-    <meta name="twitter:description" content="Leading student-school communication forward">
-    <meta name="twitter:card" content="summary_medium_image">
-    <meta name="twitter:image" content="/img/handshake.png">
-    <meta name="twitter:author" content="qoobes#0904">
-  
-    <title> ${title} </title>
-    <link rel="icon" href="img/handshake.png">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/addition.min.css">
-    </head>`;
 
 var elements = {
   title: title,
@@ -69,19 +78,34 @@ var elements = {
   head: head
 };
 
-app.get('/', function(req, res, next) {
+function validateEmail(email) {
+  let mailHost = email.substring(email.length - 18);
+  return mailHost.toLowerCase() === "@2gimnazija.edu.ba";
+}
+
+app.get('/', (req, res, next) =>  {
   res.render("index.ejs", elements);
 });
 
-app.post('/form', function(req, res, next) {
-  let email = req.body.email;
-  req.session.email = email;
-  let mailHost = email.substring(email.length - 18);
-  if (mailHost.toLowerCase() === "@2gimnazija.edu.ba") {
-    elements.email = email; // Just appends the email attribute to the elements
-    res.render("form.ejs", elements);
-    res.end();
-  } else { next({message: "Pogresan email", status: "400"}); }});
+app.post('/form', (req, res, next) => {
+
+  if (!req.session.email && !req.body.email) {
+    next({message: "Problem sa verifikacijom", status: "400"});
+  }
+
+  req.session.email = req.body.email;
+  let email = req.session.email;
+  let valid = validateEmail(email);
+  let verified = req.session.verified;
+
+  if (valid) {
+    if (!verified) {
+      verifyEmail(email);
+
+    }
+
+  } else { next({message: "Problem sa verifikacijom", status: "400"}); }});
+
   app.get('/form', function (req, res, next) {
     next({message: "Potreban je email", status: "400"});
   });
@@ -90,12 +114,12 @@ app.get('/about', function(req, res, next) {
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) =>  {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) =>  {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = err;
