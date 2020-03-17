@@ -17,11 +17,15 @@
       </div>
 
       <div class="container">
-        <input type="text" class="inputter" placeholder="Vrsta upita (Molba, problem, zalba)" id="vrsta">
+<!--        <input type="text" class="inputter" placeholder="Vrsta upita (Molba, problem, zalba)" id="vrsta">-->
+          <select name="vrsta" id="vrsta">
+              <option value="0">Prijava</option>
+              <option value="1">Molba</option>
+          </select>
         <select name="vaznost" id="vaznost">
-            <option value="none">nije hitno</option>
-            <option value="normalno">normalno</option>
-            <option value="veoma">veoma hitno</option>
+            <option value="0">nije hitno</option>
+            <option value="1">normalno</option>
+            <option value="2">veoma hitno</option>
         </select>
         
         <input type="text" class="inputter" placeholder="Naslov" id="naslov">
