@@ -1,4 +1,4 @@
-# Opusteno
+# opusteno.org
 Improving the quality of communication between schools and students
 
 ### What is it?
