@@ -70,11 +70,15 @@ const navbar = `<nav class="navbar navbar-expand-lg bg-secondary text-uppercase 
     </div>
   </nav>`;
 
+const footer = `<div class="container">
+                    <small>Copyright &copy; Second gimnasium of Sarajevo • ibmyp</small>
+                </div>`;
 
 var elements = {
   title: title,
   navbar: navbar,
-  head: head
+  head: head,
+  footer: footer
 };
 
 function validateEmail(email) {
@@ -86,6 +90,13 @@ app.get('/', (req, res, next) =>  {
   res.render("index.ejs", elements);
 });
 
+app.get('/verify', (req, res, next) => {
+  req.session.verified = {
+    state: true,
+    email: req.session.email
+  };
+  res.end();
+});
 
 app.post('/form', (req, res, next) => {
 
@@ -97,7 +108,7 @@ app.post('/form', (req, res, next) => {
   req.session.email = email;
   elements.email = email;
   let valid = validateEmail(email);
-  let verified = false;
+  let verified = req.session.verified.state;
 
   if (valid) {
     if (verified) {
@@ -107,7 +118,7 @@ app.post('/form', (req, res, next) => {
 
 app.get('/form', function (req, res, next) {
   if (req.session.email) {
-    if (req.session.verified) {
+    if (req.session.verified.state) {
       res.render('form.ejs', elements)
     } else res.render('confirmation.ejs', elements)
   } else next({message: "Potreban je email", status: "400"});
