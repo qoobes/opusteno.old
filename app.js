@@ -22,7 +22,7 @@ app.use(expressSession( {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 3600000
+    maxAge: 7200000
   }
 }));
 
@@ -87,28 +87,33 @@ app.get('/', (req, res, next) =>  {
   res.render("index.ejs", elements);
 });
 
+
 app.post('/form', (req, res, next) => {
 
   if (!req.session.email && !req.body.email) {
     next({message: "Problem sa verifikacijom", status: "400"});
   }
 
-  req.session.email = req.body.email;
-  let email = req.session.email;
+  let email = req.body.email;
+  req.session.email = email;
+  elements.email = email;
   let valid = validateEmail(email);
-  let verified = req.session.verified;
+  let verified = false;
 
   if (valid) {
-    if (!verified) {
-      verifyEmail(email);
-
-    }
-
+    if (verified) {
+      res.render('form.ejs', elements)
+    } else  res.render('confirmation.ejs', elements)
   } else { next({message: "Problem sa verifikacijom", status: "400"}); }});
 
-  app.get('/form', function (req, res, next) {
-    next({message: "Potreban je email", status: "400"});
-  });
+app.get('/form', function (req, res, next) {
+  if (req.session.email) {
+    if (req.session.verified) {
+      res.render('form.ejs', elements)
+    } else res.render('confirmation.ejs', elements)
+  } else next({message: "Potreban je email", status: "400"});
+});
+
 app.get('/about', function(req, res, next) {
   res.render("about.ejs", elements);
 });
