@@ -108,7 +108,7 @@ app.post('/form', (req, res, next) => {
   req.session.email = email;
   elements.email = email;
   let valid = validateEmail(email);
-  let verified = req.session.verified.state;
+  let verified = req.session.verified === undefined ? false : req.session.verified.state;
 
   if (valid) {
     if (verified) {
@@ -117,8 +117,10 @@ app.post('/form', (req, res, next) => {
   } else { next({message: "Problem sa verifikacijom", status: "400"}); }});
 
 app.get('/form', function (req, res, next) {
+
+  let verified = req.session.verified === undefined ? false : req.session.verified.state;
   if (req.session.email) {
-    if (req.session.verified.state) {
+    if (verified) {
       res.render('form.ejs', elements)
     } else res.render('confirmation.ejs', elements)
   } else next({message: "Potreban je email", status: "400"});
