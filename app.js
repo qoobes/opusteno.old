@@ -4,7 +4,10 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var expressSession = require('express-session')
+var nodemailer = require('nodemailer')
+var jwt = require('jsonwebtoken')
 const cookieSecret = 'HSKAJHD8Sh8sahd87ahs8HASashd8HAHSd8ahsd87hasHSShsa8dhasASHD123vgfh2gvfh21gHG'
+const EMAIL_SECRET = 'z5qmXWOvG5PTxDtW5bU3jL98gINgpiHZtep0ZT5K'
 var app = express()
 
 // view engine setup
@@ -73,21 +76,29 @@ const footer = `<div class="container">
                     <small>Copyright &copy; Second gimnasium of Sarajevo • ibmyp</small>
                 </div>`
 
-var elements = {
-  title: title,
-  navbar: navbar,
-  head: head,
-  footer: footer
+// nodemailer setup
+
+function sendConfirmation (req, res, next) {
+  next()
+  // if (!validateEmail('asd.asd@2gimnazija.edu.ba')) {
+  //   next({ message: 'Vas token nije validan', status: '403' })
+  // }
+
 }
+
+var elements = { title, navbar, head, footer }
 
 function validateEmail (email) {
   const mailHost = email.substring(email.length - 18)
   return mailHost.toLowerCase() === '@2gimnazija.edu.ba'
 }
 
-app.get('/', (req, res, next) => {
+app.post('/', sendConfirmation, (err, req, res, next) => {
   req.session.ipAddr = req.connection.remoteAddress
-  res.render('index.ejs', elements)
+  console.log(req.session.ipAddr)
+  if (!err) {
+    res.render('index.ejs', elements)
+  } else { res.sendStatus(401) }
 })
 
 app.get('/verify', (req, res, next) => {
