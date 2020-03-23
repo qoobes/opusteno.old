@@ -79,11 +79,17 @@ const footer = `<div class="container">
 // nodemailer setup
 
 function sendConfirmation (req, res, next) {
-  next()
-  // if (!validateEmail('asd.asd@2gimnazija.edu.ba')) {
-  //   next({ message: 'Vas token nije validan', status: '403' })
-  // }
+  const email = req.session.email
+  if (!email) next({ message: 'Desio se problem sa vasim mailom.', status: '403' })
+  if (!validateEmail(email)) {
+    next({ message: 'Vas token nije validan', status: '403' })
+  } else next()
+}
 
+function isConfirmed (req, res, next) {
+  const confirmed = req.session.verified === undefined ? false : req.session.verified.state
+  if (!confirmed) next({ message: 'Vas token nije validan', status: '403' })
+  else next()
 }
 
 var elements = { title, navbar, head, footer }
@@ -93,29 +99,24 @@ function validateEmail (email) {
   return mailHost.toLowerCase() === '@2gimnazija.edu.ba'
 }
 
-app.post('/', sendConfirmation, (err, req, res, next) => {
+app.get('/', (req, res, next) => {
   req.session.ipAddr = req.connection.remoteAddress
   console.log(req.session.ipAddr)
-  if (!err) {
-    res.render('index.ejs', elements)
-  } else { res.sendStatus(401) }
+
+  res.render('index.ejs', elements)
 })
 
 app.get('/verify', (req, res, next) => {
   req.session.verified = {
     state: true,
-    email: req.session.email
+    email: 'ahmed@2gimnazija.edu.ba'
   }
   res.end()
 })
 
-app.post('/form', (req, res, next) => {
-  if (!req.session.email && !req.body.email) {
-    next({ message: 'Problem sa verifikacijom', status: '400' })
-  }
-
-  const email = req.body.email
-  req.session.email = email
+app.post('/form', isConfirmed, (req, res, next) => {
+  const email = req.session.verified.email
+  console.log(email)
   elements.email = email
   const valid = validateEmail(email)
   const verified = req.session.verified === undefined ? false : req.session.verified.state
@@ -127,7 +128,7 @@ app.post('/form', (req, res, next) => {
   } else next({ message: 'Problem sa verifikacijom', status: '400' })
 })
 
-app.get('/form', function (req, res, next) {
+app.get('/form', (req, res, next) => {
   const verified = req.session.verified === undefined ? false : req.session.verified.state
   if (req.session.email) {
     if (verified) {
@@ -137,7 +138,7 @@ app.get('/form', function (req, res, next) {
   } else next({ message: 'Potreban je email', status: '400' }); res.end()
 })
 
-app.get('/about', function (req, res, next) {
+app.get('/about', isConfirmed, function (req, res, next) {
   res.render('about.ejs', elements)
   res.end()
 })
